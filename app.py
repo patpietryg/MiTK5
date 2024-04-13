@@ -3,7 +3,13 @@ from PySide6.QtWidgets import QFileDialog, QMainWindow, QTextEdit, QPushButton, 
 import crypto
 
 class App(QMainWindow):
+    """
+    Main application window for encrypting and decrypting text in images.
+    """
     def __init__(self):
+        """
+        Initializes the main application window.
+        """
         super().__init__()
         self.setWindowTitle("Aplikacja z polami tekstowymi i obrazkami")
         self.setGeometry(100, 100, 600, 500)
@@ -35,6 +41,9 @@ class App(QMainWindow):
         self.layout.addWidget(self.decrypt_button)
 
     def encrypt_text(self):
+        """
+        Encrypts the text using Caesar cipher and hides it in an image.
+        """
         plaintext = self.text_entry.toPlainText()
         shift = self.shift_entry.toPlainText()
 
@@ -58,6 +67,9 @@ class App(QMainWindow):
         QMessageBox.information(self, "Success", info)
 
     def decrypt_text(self):
+        """
+        Decrypts the text hidden in an image and displays the decrypted text.
+        """
         file_path, _ = QFileDialog.getOpenFileName(self, "Choose image", "", "Image Files (*.png *.jpg *.jpeg)")
 
         shift_dialog = ShiftDialog(self)
@@ -75,7 +87,16 @@ class App(QMainWindow):
             text_dialog.exec_()
 
 class ShiftDialog(QDialog):
+    """
+    Dialog window for entering the shift value.
+    """
     def __init__(self, parent=None):
+        """
+        Initializes the ShiftDialog window.
+
+        Args:
+            parent (QWidget): The parent widget.
+        """
         super().__init__(parent)
 
         self.setWindowTitle("Enter Shift")
@@ -91,10 +112,26 @@ class ShiftDialog(QDialog):
         self.ok_button.clicked.connect(self.accept)
         self.layout.addWidget(self.ok_button)
     def get_shift(self):
+        """
+        Returns the entered shift value.
+
+        Returns:
+            str: The entered shift value.
+        """
         return self.shift_entry.text()
 
 class TextDialog(QDialog):
+    """
+    Dialog window for displaying decrypted text.
+    """
     def __init__(self, text, parent=None):
+        """
+        Initializes the TextDialog window.
+
+        Args:
+            text (str): The decrypted text to display.
+            parent (QWidget): The parent widget.
+        """
         super().__init__(parent)
 
         self.setWindowTitle("Decrypted Text")
